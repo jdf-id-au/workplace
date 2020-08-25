@@ -1,0 +1,8 @@
+{:paths ["src"]
+ :deps {org.clojure/clojure {:mvn/version "1.10.1"}
+
+        com.imperva.ddc/ddc-core {:mvn/version "7.4.0.0.0.0"} ; Active Directory
+        com.imperva.ddc/ddc-service {:mvn/version "7.4.0.0.0.0"}
+
+        com.microsoft.ews-java-api/ews-java-api {:mvn/version "2.0"} ; Exchange
+        jakarta.xml.ws/jakarta.xml.ws-api {:mvn/version "2.3.3"}}}

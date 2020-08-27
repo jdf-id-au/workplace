@@ -1,5 +1,6 @@
 (ns workplace.auth
   "Expects config map with :host endpoint and :domain user domain."
+  (:require [clojure.spec.alpha :as s])
   (:import (com.imperva.ddc.core.query Endpoint QueryRequest ObjectType FieldType Field)
            (com.imperva.ddc.service DirectoryConnectorService)
            (com.imperva.ddc.core.exceptions AuthenticationException)
@@ -8,6 +9,10 @@
 
 ; ps> gpresult /Z
 ; ps> $env:logonserver
+
+(s/def ::host string?)
+(s/def ::domain string?)
+(s/def ::config (s/keys :req-un [::host ::domain]))
 
 (defn endpoint
   "Use inside with-open."

@@ -3,6 +3,7 @@
    https://github.com/OfficeDev/ews-java-api/wiki/Getting-Started-Guide
 
    Expects config map with :host Exchange uri."
+  (:require [clojure.spec.alpha :as s])
   (:import (microsoft.exchange.webservices.data.core.enumeration.misc ExchangeVersion)
            (microsoft.exchange.webservices.data.core ExchangeService)
            (microsoft.exchange.webservices.data.credential WebCredentials)
@@ -10,6 +11,9 @@
            (java.net URI)
            (microsoft.exchange.webservices.data.property.complex MessageBody)
            (microsoft.exchange.webservices.data.core.exception.http HttpErrorException)))
+
+(s/def ::host #(re-matches #"https://.+/EWS/Exchange.asmx" %))
+(s/def ::config (s/keys :req-un [::host]))
 
 (defn service
   [config email password]

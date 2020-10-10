@@ -43,10 +43,28 @@
              #_(.addRequestedField FieldType/PHONE_NUMBER)
              #_ (.addRequestedField FieldType/PHOTO)) ; returns bytearray!
         qa (QueryAssembler.)
-        qs (->> (str employee-number) (.addPhrase qa FieldType/LOGON_NAME PhraseOperator/EQUAL) .closeSentence)
+        qs (->> (str employee-number)
+                (.addPhrase qa FieldType/LOGON_NAME PhraseOperator/EQUAL)
+                .closeSentence)
         _ (.addSearchSentence qr qs)]
     (with-open [qc (Connector. qr)]
       (let [[f & r :as emails] (doall (for [er (.getAll (.execute qc))
                                             ^Field qf (.getValue er)]
                                         (.getValue qf)))]
         (if r emails f)))))
+
+(defn get-dept
+  [endpoint dept-starts-with]
+  (let [qr (doto (QueryRequest.)
+             (.setEndpoints [endpoint])
+             (.setObjectType ObjectType/USER)
+             (.addRequestedField FieldType/EMAIL))
+        qa (QueryAssembler.)
+        qs (->> dept-starts-with
+                (.addPhrase qa FieldType/DEPARTMENT PhraseOperator/STARTSWITH)
+                .closeSentence)
+        _ (.addSearchSentence qr qs)]
+    (with-open [qc (Connector. qr)]
+      (doall (for [er (.getAll (.execute qc))
+                   ^Field qf (.getValue er)]
+               (.getValue qf))))))

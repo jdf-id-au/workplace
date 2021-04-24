@@ -2,5 +2,5 @@
 
 Conveniences for working at work. So enterprisey.
 
-- Exchange web services email
+- Exchange Web Services email
 - Active Directory auth
